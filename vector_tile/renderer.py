@@ -189,7 +189,6 @@ class VectorTile(object):
         self.request = req
         self.extent = self.request.extent
         self.ctrans = CoordTransform(req)
-        self.path_multiplier = path_multiplier
         self.pixels = {}
         self.keys = {}
         self.values = {}
@@ -203,7 +202,9 @@ class VectorTile(object):
                 self.values[layer.name] = layer.values
         else:
             self.tile = vector_tile_pb2.tile()
-    
+        # assume all layers have same extent
+        self.path_multiplier = tile.layers[0].extent / 256 
+
     def __str__(self):
         return self.tile.__str__()
 
